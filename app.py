@@ -93,6 +93,5 @@ def search_result():
     q = request.args.get('q')
     return render_template('result.htm', query=q)
 
-
 if __name__ == "__main__":
     app.run(debug=True)
