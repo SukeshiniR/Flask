@@ -1,0 +1,28 @@
+{% extends 'base.htm' %} 
+
+{% block head %}
+<title>Posts</title>
+{% endblock %} 
+
+{% block body %}
+<hr>
+<h2>Create New Blog Post</h2>
+<form action='/posts' method='POST'>
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input placeholder="Enter title" class="form-control" type="text" name="title" id="title">
+    </div>
+    <div class="form-group">
+        <label for="title">Author:</label>
+        <input placeholder="Enter the name of the author" class="form-control" type="text" name="author" id="author">
+    </div>
+    <div class="form-group">
+        <label for="title">Post:</label>
+        <textarea placeholder="Enter the description" class="form-control" rows="3" name="content" id="content"></textarea>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-secondary" type="submit">Post</button>
+    </div>
+</form>
+    <hr>
+{% endblock %}
