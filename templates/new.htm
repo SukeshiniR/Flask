@@ -7,21 +7,45 @@
 {% block body %}
 <hr>
 <h2>Create New Blog Post</h2>
-<form action='/posts' method='POST'>
+<form action='/posts' method='POST' class="needs-validation" novalidate>
     <div class="form-group">
         <label for="title">Title:</label>
         <input placeholder="Enter title" class="form-control" type="text" name="title" id="title">
     </div>
-    <div class="form-group">
-        <label for="title">Author:</label>
-        <input placeholder="Enter the name of the author" class="form-control" type="text" name="author" id="author">
-    </div>
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="author">Author</label>
+          <input type="text" class="form-control" id="author" placeholder="Author" required name="author">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="url">URL</label>
+          <input type="text" class="form-control" id="url" placeholder="post URL" name="url">
+        </div>
+      </div>
     <div class="form-group">
         <label for="title">Post:</label>
-        <textarea placeholder="Enter the description" class="form-control" rows="3" name="content" id="content"></textarea>
+        <textarea placeholder="Enter the description" class="form-control" rows="5" name="content" id="content"></textarea>
     </div>
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" id="author" placeholder="Location" required name="location">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="labels">Labels</label>
+          <input type="text" class="form-control" id="url" placeholder="post labels" name="labels">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="allow_comments">
+          <label class="form-check-label" for="allow_comments">
+            Allow Comments
+          </label>
+        </div>
+      </div>
     <div class="form-group">
-        <button class="btn btn-secondary" type="submit">Post</button>
+        <button class="btn btn-secondary" type="submit">Publish</button>
     </div>
 </form>
     <hr>

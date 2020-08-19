@@ -84,7 +84,7 @@ def post_type_technology():
 def post_type_nature():
     return render_template('type/nature.htm')
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup', methods=['POST', 'GET'])
 def signup():
     return render_template('login/signup.htm')
 
