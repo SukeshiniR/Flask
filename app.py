@@ -6,12 +6,17 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy(app)
 
-class BlogPost(db.Model):
+class Articles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     author = db.Column(db.String(20), nullable=False, default='N/A')
+    url = db.Column(db.String(200), nullable=True)
+    location = db.Column(db.String(100), nullable=True)
+    labels = db.Column(db.String(200), nullable=True)
+    allow_comments = db.Column(db.Boolean, nullable=True, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return 'Blog post ' + str(self.id)
@@ -26,17 +31,17 @@ def posts():
         post_title = request.form['title']
         post_content = request.form['content']
         post_author = request.form['author']
-        new_post = BlogPost(title=post_title, content=post_content, author=post_author)
+        new_post = Articles(title=post_title, content=post_content, author=post_author)
         db.session.add(new_post)
         db.session.commit()
         return redirect('/posts')
     else:
-        all_posts = BlogPost.query.order_by(BlogPost.created_at).all()
+        all_posts = Articles.query.order_by(Articles.updated_at).all()
         return render_template('posts.htm', posts=all_posts)
 
 @app.route('/posts/delete/<int:id>')
 def delete(id):
-    post = BlogPost.query.get_or_404(id)
+    post = Articles.query.get_or_404(id)
     db.session.delete(post)
     db.session.commit()
     return redirect('/posts')
@@ -44,7 +49,7 @@ def delete(id):
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
-    post = BlogPost.query.get_or_404(id)
+    post = Articles.query.get_or_404(id)
     if request.method == 'POST':
         post.title = request.form['title']
         post.content = request.form['content']
@@ -61,7 +66,10 @@ def new_post():
         post_title = request.form['title']
         post_content = request.form['content']
         post_author = request.form['author']
-        new_post = BlogPost(title=post_title, content=post_content, author=post_author)
+        post_url = request.form['url']
+        post_location = request.form['location']
+        post_labels = request.form['labels']
+        new_post = Articles(title=post_title, content=post_content, author=post_author, url=post_url, location=post_location, labels=post_labels)
         db.session.add(new_post)
         db.session.commit()
         return redirect('/posts')
