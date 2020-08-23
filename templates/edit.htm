@@ -2,25 +2,62 @@
 
 {% block head %}
 <title>Posts</title>
+<script src='https://cdn.tiny.cloud/1/26t1e11gc35gm6gptnfqoqewsd8xawzn2ly2zj979wq6ljlr/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+</script>
+<script>
+  tinymce.init({
+    selector: 'textarea#content',
+    menubar: false
+  });
+</script>
 {% endblock %} 
 
 {% block body %}
-    <h1>All Posts</h1>
+<br>
+    <h1>Edit <b>"{{post.title}}"</b></h1>
     <hr>
-    <h2>Edit Blog Post</h2>
     <form action='/posts/edit/{{post.id}}' method='POST'>
         <div class="form-group">
             <label for="title">Title:</label>
             <input value="{{post.title}}" class="form-control" type="text" name="title" id="title">
         </div>
-        <div class="form-group">
-            <label for="title">Author:</label>
-            <input value="{{post.author}}" class="form-control" type="text" name="author" id="author">
-        </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="author">Author</label>
+              <input type="text" class="form-control" id="author" value="{{post.author}}" required name="author">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="url">URL</label>
+              <input type="text" class="form-control" id="url" value="{{post.author}}" name="url">
+            </div>
+          </div>
         <div class="form-group">
             <label for="title">Post:</label>
-            <textarea class="form-control" rows="3" name="content" id="content">{{post.content}}</textarea>
+            <textarea class="form-control" rows="15" name="content" id="content">{{post.content}}</textarea>
         </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="location">Location</label>
+              <input type="text" class="form-control" id="author" value="{{post.location}}" required name="location">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="labels">Labels</label>
+              <input type="text" class="form-control" id="url" value="{{post.labels}}" name="labels">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="btn-group" data-toggle="buttons">
+                {% if post.allow_comments==True %}
+                <label class="btn btn-default active">
+                    <input type="checkbox" checked="checked" name="allow_comments" value="1"> Allow Comments
+                </label>
+                {% else %}
+                <label class="btn btn-default active">
+                    <input type="checkbox" name="allow_comments" value="0"> Allow Comments
+                </label>
+                {% endif %}
+            </div>
+          </div>
         <div class="form-group">
             <button class="btn btn-secondary" type="submit">Save</button>
         </div>

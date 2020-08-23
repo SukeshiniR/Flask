@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import logging
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy(app)
+logging.basicConfig(filename='error.log', level=logging.DEBUG)
+
 
 class Articles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,6 +57,10 @@ def edit(id):
         post.title = request.form['title']
         post.content = request.form['content']
         post.author = request.form['author']
+        post.url = request.form['url']
+        post.location = request.form['location']
+        post.labels = request.form['labels']
+        post.allow_comments = int(request.form['allow_comments'])
         db.session.commit()
         return redirect('/posts')
     else:
@@ -69,6 +76,7 @@ def new_post():
         post_url = request.form['url']
         post_location = request.form['location']
         post_labels = request.form['labels']
+        post_allow_comments = int(request.form['allow_comments'])
         new_post = Articles(title=post_title, content=post_content, author=post_author, url=post_url, location=post_location, labels=post_labels)
         db.session.add(new_post)
         db.session.commit()
